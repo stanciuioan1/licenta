@@ -1,7 +1,6 @@
 import os
 import filecmp
-import re
-import time
+
 
 codes = {200: 'success', 404: 'file_name not found',
          400: 'error', 408: 'timeout'}
