@@ -10,5 +10,5 @@ app.config['JWT_SECRET_KEY'] = 'Your_Secret_Key'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
 app.secret_key = 'secret key'
 client = MongoClient("mongodb+srv://ioanstanciu:anaaremere@cluster0.9wluw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority") # your connection string
-db = client["bktlist"]
+db = client["users"]
 users_collection = db["users"]

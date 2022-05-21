@@ -34,8 +34,7 @@ class program:
 
     def run(self):
         cmd = './' + self.name
-        r = os.system('timeout ' + timeout + ' ' +
-                      cmd + ' < ' + self.inp_file + ' > ' + self.actualout)
+        r = os.system('timeout ' + timeout + ' ' +cmd + ' < ' + self.inp_file + ' > ' + self.actualout)
         if r == 0:
             return 200
         elif r == 31744:

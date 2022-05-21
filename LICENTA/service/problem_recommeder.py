@@ -58,7 +58,7 @@ class Content_Based_Filtering:
 
     def get_category_recommandation(self, user_no, current_problem_no):
         scores = self.total_score_of_user(user_no)
-        category_of_current = int(current_problem_no / 20)
+        category_of_current = int(int(current_problem_no) / 20)
         recc = category_of_current
         while scores[recc] > 50:
             recc = (recc + 1)%24
@@ -72,6 +72,7 @@ class Content_Based_Filtering:
     
     def get_available_problems(self, user_no, current_problem_no):
         scores = self.GetScores(user_no)
+        print(scores)
         categ = self.get_category_recommandation(user_no, current_problem_no)
 
         range_start = categ * 20 + 1
@@ -96,9 +97,7 @@ class Content_Based_Filtering:
 
 
 
-x = Content_Based_Filtering()
 
-print(x.get_available_problems(2, 221))
 
 
 class Collaborative_Filtering:
@@ -155,10 +154,11 @@ class Collaborative_Filtering:
         problem_title = problem_titles[problem_id]
 
 
-
+        ret = []
         print(f"Since you watched {problem_title}, we recommend: ")
         for i in similar_ids:
-            print(problem_titles[i])
+            ret.append(problem_titles[i])
 
-x = Collaborative_Filtering()
-x.collaborative_filtering(221)
+        return ret
+
+

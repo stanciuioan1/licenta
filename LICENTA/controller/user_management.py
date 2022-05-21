@@ -16,7 +16,7 @@ def register():
     new_user["password"] = hashlib.sha256(new_user["password"].encode("utf-8")).hexdigest() # encrpt password
     doc = users_collection.find_one({"username": new_user["username"]}) # check if user exist
     if not doc:
-        new_user["problems"] = []
+        new_user["problems"] = {}
         users_collection.insert_one(new_user)
         return jsonify({'msg': 'User created successfully'}), 201
     else:
