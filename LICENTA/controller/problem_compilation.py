@@ -1,5 +1,5 @@
 from flask import Flask, request, session
-import compiler
+import service.compiler as compiler
 from __init__ import *
 import base64
 

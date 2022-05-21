@@ -1,4 +1,4 @@
-import problem_details
+import service.problem_details as problem_details
 
 from __init__ import *
 
