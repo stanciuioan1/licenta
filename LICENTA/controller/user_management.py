@@ -26,21 +26,40 @@ def register():
 def login():
     login_details = request.get_json() # store the json body request
     user_from_db = users_collection.find_one({'username': login_details['username']})  # search for user in database
-
+    encrpted_password = ''
+    if user_from_db is None:
+        response = jsonify({'msg': 'The username or password is incorrect'}), 401
+        return response
     if user_from_db:
         encrpted_password = hashlib.sha256(login_details['password'].encode("utf-8")).hexdigest()
     if encrpted_password == user_from_db['password']:
-        access_token = create_access_token(identity=user_from_db['username']) # create jwt 
-        session['access_token'] = access_token
-        return jsonify(access_token=access_token), 200
+        #access_token = create_access_token(identity=user_from_db['username']) # create jwt 
+        #session['access_token'] = access_token
+        session['username'] = login_details['username']
+        #response = jsonify(access_token=access_token), 
+        response = jsonify(username=login_details['username']), 200
+        
+        #response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
 
-    return jsonify({'msg': 'The username or password is incorrect'}), 401
+    response = jsonify({'msg': 'The username or password is incorrect'}), 401
+    #response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
+@app.route("/logout", methods=["POST"])
+def logout_user():
+    session.pop("username")
+    return "200"
 
 @app.route("/user", methods=["GET"])
-@jwt_required()
+#@jwt_required()
 def profile():
-    current_user = get_jwt_identity() # Get the identity of the current 
+    current_user = session.get("username")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
+    print("aici suntem")
+    #current_user = get_jwt_identity() # Get the identity of the current 
     print(current_user)
     user_from_db = users_collection.find_one({'username' : current_user})
     if user_from_db:

@@ -1,4 +1,4 @@
-from flask import Flask, request, session
+
 import service.compiler as compiler
 from __init__ import *
 import base64
@@ -15,9 +15,13 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 
 #-----------compilation part---------------------
 @app.route('/compile/<problem_no>')
-@jwt_required()
+#@jwt_required()
 def compile(problem_no):
-    current_user = get_jwt_identity() # Get the identity of the current 
+    #current_user = get_jwt_identity() # Get the identity of the current 
+    current_user = session.get("username")
+
+    if not current_user:
+        return jsonify({"error": "Unauthorized"}), 401
     print(current_user)
     user_from_db = users_collection.find_one({'username' : current_user})
     if not user_from_db:

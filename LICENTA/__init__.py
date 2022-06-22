@@ -3,8 +3,11 @@ import datetime
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from pymongo import MongoClient
+from flask_cors import CORS, cross_origin
+from flask import Flask, request, session
 
 app = Flask(__name__)
+CORS(app)
 jwt = JWTManager(app)
 app.config['JWT_SECRET_KEY'] = 'Your_Secret_Key'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
