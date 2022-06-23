@@ -29,6 +29,7 @@ def login():
     encrpted_password = ''
     if user_from_db is None:
         response = jsonify({'msg': 'The username or password is incorrect'}), 401
+
         return response
     if user_from_db:
         encrpted_password = hashlib.sha256(login_details['password'].encode("utf-8")).hexdigest()
@@ -38,11 +39,12 @@ def login():
         session['username'] = login_details['username']
         #response = jsonify(access_token=access_token), 
         response = jsonify(username=login_details['username']), 200
-        
+
         #response.headers.add("Access-Control-Allow-Origin", "*")
         return response
 
     response = jsonify({'msg': 'The username or password is incorrect'}), 401
+
     #response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 

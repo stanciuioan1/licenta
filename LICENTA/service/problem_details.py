@@ -3,6 +3,7 @@ import filecmp
 
 
 def get_enunt(problem_no):
+    print(os.listdir())
     os.chdir('problems')
     folder_files = os.listdir()
     if not (str(problem_no)  in folder_files):
@@ -12,7 +13,7 @@ def get_enunt(problem_no):
     input_file = open("enunt", "r")
     input_text = input_file.read()
     input_file.close()
-    os.chdir("../..")
+    os.chdir("../../")
     return input_text
 
 
@@ -27,7 +28,7 @@ def get_date_intrare(problem_no):
     input_file = open("date_intrare", "r")
     input_text = input_file.read()
     input_file.close()
-    os.chdir("../..")
+    os.chdir("../../")
     return input_text
 
 
@@ -43,7 +44,7 @@ def get_date_iesire(problem_no):
     input_text = input_file.read()
     input_file.close()
     
-    os.chdir("../..")
+    os.chdir("../../")
     return input_text
 
 def get_exemplu(problem_no):
@@ -56,7 +57,7 @@ def get_exemplu(problem_no):
     input_file = open("exemplu", "r")
     input_text = input_file.read()
     input_file.close()
-    os.chdir("../..")
+    os.chdir("../../")
     return input_text
 
 def get_tags(problem_no):
@@ -69,6 +70,6 @@ def get_tags(problem_no):
     input_file = open("tags", "r")
     input_file.close()
     input_text = input_file.read()
-    os.chdir("../..")
+    os.chdir("../../")
     return input_text
 
