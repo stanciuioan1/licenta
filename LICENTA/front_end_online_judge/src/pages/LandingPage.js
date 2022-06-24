@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import httpClient from "./httpClient";
 import { User } from "../types";
 
+
 const LandingPage = () => {
   const [user, setUser] = useState(User);
   const logoutUser = async () => {
@@ -11,14 +12,15 @@ const LandingPage = () => {
     window.location.href = "/";
   };
 
-  function handleClick  (e,a){
+  function handleClick  (e){
 
-    console.log(a);
-    sessionStorage.setItem("problem_no",e);
+
+    localStorage.setItem("problem_no",e);
+    console.log("da" + e.toString())
   };
   const numbers = [1, 2, 3, 4, 5];
   const listItems = numbers.map((number) =>
-  <h1><a href="/problem" onClick={handleClick(number.toString())} key={number.toString()  }>
+  <h1 /*onClick={handleClick(number.toString())}*/><a href={`/problem?no=${number.toString()}`} /*key={number.toString()  }*/>
     {number}
   </a></h1>
 );
