@@ -14,10 +14,11 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 
 
 #-----------compilation part---------------------
-@app.route('/compile/<problem_no>')
+@app.route('/compile/<problem_no>',  methods=["POST"])
 #@jwt_required()
 def compile(problem_no):    
     print("intram in fct fatala")
+    print(request.get_json())
     #current_user = get_jwt_identity() # Get the identity of the current 
     current_user = session.get("username")
 

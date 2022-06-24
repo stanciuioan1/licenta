@@ -5,7 +5,7 @@ import httpClient from "./httpClient";
 import { User } from "../types";
 import AceEditor from 'react-ace'
 import { useLocation } from 'react-router-dom';
-import  queryString from 'query-string';
+import  queryString, { stringify } from 'query-string';
 import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
 // import mode-<language> , this imports the style and colors for the selected language.
@@ -24,6 +24,7 @@ const ProblemPage = () => {
   const [date_iesire, setDate_iesire] = useState("");
   const [enunt, setEnunt] = useState("");
   const [exemplu, setExemplu] = useState("");
+  const [scor, setScor] = useState("");
   const [code1, setCode1] = useState(`function hello() {
     console.log("Hello World!");
   }`)
@@ -38,11 +39,14 @@ const ProblemPage = () => {
     //await httpClient.post("//localhost:5000/logout");
     //window.location.href = "/";
 
- 
+    let req = {
+        "code" : code
+    };
 
-    let response = await httpClient.post("http://localhost:5000/compile/"+ parsed.no.toString(), {code});
+    let response = await httpClient.post("http://localhost:5000/compile/"+ parsed.no.toString(), req);
     
     console.log(response.data)
+    setScor(response.data.tests)
     //console.log(response)
   };
 
@@ -103,6 +107,7 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
           >
             Compile
           </Button>
+          {scor}
             <AceEditor 
             style={{
                 height: '100vh',
