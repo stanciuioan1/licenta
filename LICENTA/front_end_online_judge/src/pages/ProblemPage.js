@@ -24,9 +24,20 @@ const ProblemPage = () => {
   const [date_iesire, setDate_iesire] = useState("");
   const [enunt, setEnunt] = useState("");
   const [exemplu, setExemplu] = useState("");
-  const [scor, setScor] = useState("");
-  const [code1, setCode1] = useState(`function hello() {
-    console.log("Hello World!");
+  const [scor1, setScor1] = useState("");
+  const [scor2, setScor2] = useState("");
+  const [scor3, setScor3] = useState("");
+  const [scor4, setScor4] = useState("");
+
+  const [code1, setCode1] = useState(`#include <iostream>
+
+  using namespace std;
+  
+  
+  int main()
+  {
+      
+      return 0;
   }`)
   
   const location = useLocation();
@@ -46,8 +57,12 @@ const ProblemPage = () => {
     let response = await httpClient.post("http://localhost:5000/compile/"+ parsed.no.toString(), req);
     
     console.log(response.data)
-    setScor(response.data.tests)
-    //console.log(response)
+    setScor1(response.data.tests["1"] === true ? "correct" : "wrong answer")
+    setScor2(response.data.tests["2"]=== true ? "correct" : "wrong answer")
+    setScor3(response.data.tests["3"]=== true ? "correct" : "wrong answer")
+    setScor4(response.data.tests["4"]=== true ? "correct" : "wrong answer")
+
+    console.log(response.data.tests)
   };
 
   const logoutUser = async () => {
@@ -107,14 +122,18 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
           >
             Compile
           </Button>
-          {scor}
+          <ol>
+            <li>{scor1}</li>
+            <li>{scor2}</li>
+            <li>{scor3}</li>
+            <li>{scor4}</li>
+            </ol>
             <AceEditor 
             style={{
                 height: '100vh',
                 width: '100%',
             }}
             placeholder='Start Coding'
-            mode='javascript'
             theme='monokai'
             name='basic-code-editor'
             onChange={currentCode => setCode1(currentCode)}
