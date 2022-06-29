@@ -19,6 +19,8 @@ import 'ace-builds/src-noconflict/ext-beautify'
 
 
 const ProblemPage = () => {
+  const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(User);
   const [date_intrare, setDate_intrare] = useState("");
   const [date_iesire, setDate_iesire] = useState("");
@@ -94,9 +96,13 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
         setDate_intrare(resp3.data);
         setDate_iesire(resp4.data);
         setExemplu(resp5.data);
+        setLoading(false);
+        setLoggedIn(true);
 
       } catch (error) {
         console.log("Not authenticated");
+        setLoading(false);
+        setLoggedIn(false);
       }
     })();
   }, []);
@@ -104,7 +110,8 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
     <div>
       <h1 className="center">Welcome to this React Application</h1>
       <hr></hr>
-      {user != null ? (
+      {loading && <h2>Loading...</h2>}
+      { loggedIn && 
         <div> 
           
             <h4 className="centerText pt-4">{enunt}</h4>
@@ -159,7 +166,8 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
             Logout
           </Button>
         </div>
-      ) : (
+      }
+      { !loading && !loggedIn &&
         <div>
           <h2 className="centerText">
             <h4>
@@ -182,7 +190,7 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
             </Row>
           </Container>
         </div>
-      )}
+      }
     </div>
   );
 };

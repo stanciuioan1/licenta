@@ -155,7 +155,7 @@ class Collaborative_Filtering:
 
 
         ret = []
-        print(f"Since you watched {problem_title}, we recommend: ")
+        print(f"Since you solved {problem_title}, we recommend: ")
         for i in similar_ids:
             ret.append(problem_titles[i])
 

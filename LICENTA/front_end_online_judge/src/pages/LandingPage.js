@@ -6,6 +6,8 @@ import { User } from "../types";
 
 
 const LandingPage = () => {
+  const [loading, setLoading] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(User);
   const logoutUser = async () => {
     await httpClient.post("//localhost:5000/logout");
@@ -28,9 +30,13 @@ const LandingPage = () => {
         console.log(resp.data)
 
         setUser(resp.data);
+        setLoading(false);
+        setLoggedIn(true);
 
       } catch (error) {
         console.log("Not authenticated");
+        setLoading(false);
+        setLoggedIn(false);
       }
     })();
   }, []);
@@ -38,7 +44,8 @@ const LandingPage = () => {
     <div>
       <h1 className="center">Welcome to this React Application</h1>
       <hr></hr>
-      {user != null ? (
+      {loading && <h2>Loading...</h2>}
+      { loggedIn && 
         <div> 
           <h2 className="centerText ">You are Successfully Logged in</h2>
 
@@ -55,7 +62,8 @@ const LandingPage = () => {
             Logout
           </Button>
         </div>
-      ) : (
+      }
+      { !loading && !loggedIn &&
         <div>
           <h2 className="centerText">
             <h4>
@@ -78,7 +86,7 @@ const LandingPage = () => {
             </Row>
           </Container>
         </div>
-      )}
+      } 
     </div>
   );
 };
