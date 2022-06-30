@@ -4,9 +4,7 @@ from __init__ import *
 import hashlib
 
 
-
 header = ['userId', 'problemId', 'score']
-data = ['Afghanistan', 652090, 'AF', 'AFG']
 
 header2 = ['problemId', 'title']
 with open('problems.csv', 'w') as f:
@@ -25,21 +23,14 @@ with open('problems.csv', 'w') as f:
             data = [i*20 + k, name]
             writer.writerow(data)
 
-    #for i in range(1, 480):
-    #    name = 'grafuri' + str(i)
-    #    data = [i, name]
-    #    writer.writerow(data)
 
     f.close()
 
 with open('scores.csv', 'w') as f:
     writer = csv.writer(f)
 
-    # write the header
     writer.writerow(header)
 
-    # write the data
-    # writer.writerow(data)
     for user in range(1,1000):
         new_user = {}
         new_user["username"] = "user" + str(user)
@@ -47,7 +38,7 @@ with open('scores.csv', 'w') as f:
         new_user["password"] = hashlib.sha256("test".encode("utf-8")).hexdigest() 
         new_user["problems"] = {}
         
-        n = random.randint(1, 150)  # nr de probleme
+        n = random.randint(1, 150)  
         for i in range(1,n):
             x = (i ** 3 -214354) % 480
             score1 = (random.randint(0, 1) == 1)
@@ -63,11 +54,9 @@ with open('scores.csv', 'w') as f:
             problems = new_user["problems"]
             problems[str(x)] = tests
 
-            #users_collection.update_one({"username": ("user" + str(user))}, {"$set": { "problems": problems }})
             data = ["user" + str(user), x, score]
             writer.writerow(data)
-        #print(new_user)
-        #break
+
         users_collection.insert_one(new_user)
 
     f.close()

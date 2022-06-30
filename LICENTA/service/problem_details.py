@@ -1,5 +1,4 @@
 import os
-import filecmp
 
 
 def get_enunt(problem_no):
@@ -9,7 +8,7 @@ def get_enunt(problem_no):
     if not (str(problem_no)  in folder_files):
         return 500
     
-    os.chdir(str(problem_no)) #entering the problem 
+    os.chdir(str(problem_no)) 
     input_file = open("enunt", "r")
     input_text = input_file.read()
     input_file.close()
@@ -24,7 +23,7 @@ def get_date_intrare(problem_no):
     if not (str(problem_no)  in folder_files):
         return 500
     
-    os.chdir(str(problem_no)) #entering the problem 
+    os.chdir(str(problem_no))
     input_file = open("date_intrare", "r")
     input_text = input_file.read()
     input_file.close()

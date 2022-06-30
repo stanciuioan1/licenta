@@ -1,10 +1,6 @@
 import os
 import filecmp
 
-
-codes = {200: 'success', 404: 'file_name not found',
-         400: 'error', 408: 'timeout'}
-
 file_name = "pb.cpp"
 bin_file = "pb"
 inp_file = "pb.in"
@@ -108,8 +104,7 @@ def compile(text_problem, problem_no):
     os.chdir('problems')
     folder_files = os.listdir()
     if str(problem_no)  in folder_files:
-        os.chdir(str(problem_no)) #entering the problem 
-
+        os.chdir(str(problem_no)) 
 
         for i in range(1,5):
             os.chdir("in")
@@ -121,11 +116,11 @@ def compile(text_problem, problem_no):
            
             os.chdir("../../..")
             create_input_file = open(inp_file, "w")
-            create_input_file.write(input_text) #ramane
+            create_input_file.write(input_text) 
             create_output_file = open(expectedOut, "w")
-            create_output_file.write(output_text) # ramane
-            create_input_file.close() # ramane
-            create_output_file.close() #ramane
+            create_output_file.write(output_text) 
+            create_input_file.close() 
+            create_output_file.close()
 
  
 

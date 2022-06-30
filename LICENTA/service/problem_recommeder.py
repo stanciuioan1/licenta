@@ -3,6 +3,9 @@ import pandas as pd
 from scipy.sparse import csr_matrix
 from sklearn.neighbors import NearestNeighbors
 import time
+from __init__ import *
+import math
+import numpy
 
 start = time.time()
 
@@ -34,7 +37,6 @@ class Content_Based_Filtering:
     def GetScores(self, user_no):
         scores = ratings[ratings.userId == user_no]
         scores = scores[['problemId', 'score']]
-        # print(scores)
         dicti = {}
         for i,j  in scores.iterrows():
             dicti[j.problemId] = j.score
@@ -93,6 +95,80 @@ class Content_Based_Filtering:
 
 
 
+class My_Collaborative_Filtering:
+    def cosine_similarity(self,a,b):
+
+        prod_a=0
+        prod_b=0
+        prod_a_b=0
+        length = len(a)
+        for i in range(length):
+            prod_a += a[i] * a[i]
+            prod_b += b[i] * b[i]
+            prod_a_b += a[i] * b[i]
+
+        if prod_a == 0 or prod_b == 0:
+            return 1.1
+        else:
+            return prod_a_b / math.sqrt(prod_a * prod_b)
+
+
+    def generate_matrix(self):
+        problems1 = []
+
+        no_users=0
+        for _ in users_collection.find():
+            no_users = no_users + 1
+
+        for i in range(480):
+            users = [0 for _ in range(no_users)]
+            problems1.append(users)
+
+        user_no = 0
+        cursor = users_collection.find()
+        for i in cursor:
+            for j in i["problems"]:
+
+                problems1[int(j)][user_no] = 1
+                if i["problems"][j]['1'] == 'True':
+                    problems1[int(j)][user_no] += 1
+                if i["problems"][j]['2'] == 'True':
+                    problems1[int(j)][user_no] += 1
+                if i["problems"][j]['3'] == 'True':
+                    problems1[int(j)][user_no] += 1
+                if i["problems"][j]['4'] == 'True':
+                    problems1[int(j)][user_no] += 1
+
+            user_no +=1
+
+        return problems1
+
+
+    def compute_knn(self,problem_nr):
+        similarities = []
+        problems1 = self.generate_matrix()
+        for i in problems1:
+            similarity = self.cosine_similarity(i, problems1[int(problem_nr)])
+            similarities.append(similarity)
+    
+
+        rez = numpy.argsort(similarities)
+        rez2 = numpy.sort(similarities)
+        index = 0
+        for i in rez2:
+            if i == 1.1:
+                break
+            else:
+                index+=1
+
+        index -= 1
+        rez3 = rez[index-10:index]
+        probs = [problem_titles[i] for i in rez3]
+
+        
+
+        print(probs)
+        return probs
 
 
 

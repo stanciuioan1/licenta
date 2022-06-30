@@ -45,9 +45,7 @@ def get_problem_tests(problem_no):
     return jsonify({'msg': problems[str(problem_no)]}), 200
 
 @app.route("/get_problem_score/<problem_no>", methods=["GET"])
-#@jwt_required()
 def get_problem_scoare(problem_no):
-    #current_user = get_jwt_identity() # Get the identity of the current 
     current_user = session.get("username")
 
     if not current_user:

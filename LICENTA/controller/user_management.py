@@ -1,20 +1,16 @@
 from flask import request, session
-
 from __init__ import *
-
 import hashlib
-
-from flask import Flask, request, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask import request, jsonify
 
 
 #-----------user management--------------------------
 
 @app.route("/register", methods=["POST"])
 def register():
-    new_user = request.get_json() # store the json body request
-    new_user["password"] = hashlib.sha256(new_user["password"].encode("utf-8")).hexdigest() # encrpt password
-    doc = users_collection.find_one({"username": new_user["username"]}) # check if user exist
+    new_user = request.get_json() 
+    new_user["password"] = hashlib.sha256(new_user["password"].encode("utf-8")).hexdigest() 
+    doc = users_collection.find_one({"username": new_user["username"]}) 
     if not doc:
         new_user["problems"] = {}
         users_collection.insert_one(new_user)
@@ -24,8 +20,8 @@ def register():
 
 @app.route("/login", methods=["POST"])
 def login():
-    login_details = request.get_json() # store the json body request
-    user_from_db = users_collection.find_one({'username': login_details['username']})  # search for user in database
+    login_details = request.get_json() 
+    user_from_db = users_collection.find_one({'username': login_details['username']})  
     encrpted_password = ''
     if user_from_db is None:
         response = jsonify({'msg': 'The username or password is incorrect'}), 401
@@ -34,18 +30,11 @@ def login():
     if user_from_db:
         encrpted_password = hashlib.sha256(login_details['password'].encode("utf-8")).hexdigest()
     if encrpted_password == user_from_db['password']:
-        #access_token = create_access_token(identity=user_from_db['username']) # create jwt 
-        #session['access_token'] = access_token
         session['username'] = login_details['username']
-        #response = jsonify(access_token=access_token), 
         response = jsonify(username=login_details['username']), 200
-
-        #response.headers.add("Access-Control-Allow-Origin", "*")
         return response
 
     response = jsonify({'msg': 'The username or password is incorrect'}), 401
-
-    #response.headers.add("Access-Control-Allow-Origin", "*")
     return response
 
 @app.route("/logout", methods=["POST"])
@@ -54,19 +43,17 @@ def logout_user():
     return "200"
 
 @app.route("/user", methods=["GET"])
-#@jwt_required()
 def profile():
     current_user = session.get("username")
 
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
     print("aici suntem")
-    #current_user = get_jwt_identity() # Get the identity of the current 
     print(current_user)
     user_from_db = users_collection.find_one({'username' : current_user})
     if user_from_db:
-        del user_from_db['_id'], user_from_db['password'] # delete data we don't want to return
+        del user_from_db['_id'], user_from_db['password']
         return jsonify({'profile' : user_from_db }), 200
     else:
         return jsonify({'msg': 'Profile not found'}), 404
-    #return jsonify(access_token=access_token), 200
+

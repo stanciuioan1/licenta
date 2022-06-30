@@ -5,8 +5,6 @@ from controller.user_problems import *
 from controller.problem_recommender import *
 
 
-
-# main driver function
 if __name__ == '__main__':
   
     app.run()

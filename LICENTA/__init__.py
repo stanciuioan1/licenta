@@ -1,10 +1,9 @@
 from flask import Flask
 import datetime
 from flask import Flask
-from flask_jwt_extended import JWTManager
 from pymongo import MongoClient
-from flask_cors import CORS, cross_origin
-from flask import Flask, request, session
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 CORS_ALLOW_ORIGIN="*,*"
