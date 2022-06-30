@@ -1,20 +1,13 @@
 from __init__ import *
-import base64
-import json
-import hashlib
-import datetime
-from flask import Flask, request, jsonify
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
-from pymongo import MongoClient
+from flask import jsonify
+from flask import  session
 
 @app.route("/get_problems", methods=["GET"])
-#@jwt_required()
 def get_problems():
     current_user = session.get("username")
 
     if not current_user:
         return jsonify({"error": "Unauthorized"}), 401
-    #current_user = get_jwt_identity() # Get the identity of the current 
     print(current_user)
     user_from_db = users_collection.find_one({'username' : current_user})
     if  not user_from_db:
@@ -26,9 +19,7 @@ def get_problems():
 
 
 @app.route("/get_problem_tests/<problem_no>", methods=["GET"])
-#@jwt_required()
 def get_problem_tests(problem_no):
-    #current_user = get_jwt_identity() # Get the identity of the current 
     current_user = session.get("username")
 
     if not current_user:
