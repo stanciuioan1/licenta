@@ -6,13 +6,11 @@ import { User } from "../types";
 import AceEditor from 'react-ace'
 import { useLocation } from 'react-router-dom';
 import  queryString, { stringify } from 'query-string';
-import {decode as base64_decode, encode as base64_encode} from 'base-64';
+import { encode as base64_encode} from 'base-64';
 
-// import mode-<language> , this imports the style and colors for the selected language.
 import 'ace-builds/src-noconflict/mode-javascript'
 // there are many themes to import, I liked monokai.
 import 'ace-builds/src-noconflict/theme-monokai'
-// this is an optional import just improved the interaction.
 import 'ace-builds/src-noconflict/ext-language_tools'
 import 'ace-builds/src-noconflict/ext-beautify'
 
@@ -30,6 +28,8 @@ const ProblemPage = () => {
   const [scor2, setScor2] = useState("");
   const [scor3, setScor3] = useState("");
   const [scor4, setScor4] = useState("");
+  const [rec_continut, setRec_continut] = useState("");
+  const [rec_colab, setRec_colab] = useState("");
 
   const [code1, setCode1] = useState(`#include <iostream>
 
@@ -88,6 +88,8 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
         const resp3 = await httpClient.get("//localhost:5000/date_intrare/" + parsed.no.toString());
         const resp4 = await httpClient.get("//localhost:5000/date_iesire/" + parsed.no.toString());
         const resp5 = await httpClient.get("//localhost:5000/exemplu/" + parsed.no.toString());
+        const resp6 = await httpClient.get("//localhost:5000/get_content_based_recommendation/" + parsed.no.toString());
+        const resp7 = await httpClient.get("//localhost:5000/get_my_collaborative_recommendation/" + parsed.no.toString());
         console.log(resp.data)
 
         setUser(resp.data);
@@ -96,6 +98,11 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
         setDate_intrare(resp3.data);
         setDate_iesire(resp4.data);
         setExemplu(resp5.data);
+        setRec_continut(resp6.data.msg);
+        setRec_colab(resp7.data.msg);
+
+        console.log(resp6.data.msg);
+        console.log(resp7.data.msg);
         setLoading(false);
         setLoggedIn(true);
 
@@ -108,7 +115,7 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
   }, []);
   return (
     <div>
-      <h1 className="center">Welcome to this React Application</h1>
+      <h1 className="center">Online judge</h1>
       <hr></hr>
       {loading && <h2>Loading...</h2>}
       { loggedIn && 
@@ -122,6 +129,26 @@ const [problem_no, setProblem_no] = useState(getProblem_no());
             <p></p>
             <h4 className="centerText pt-4">{exemplu}</h4>
             <p></p>
+
+            <h1>Recomandam si: </h1>
+            <ol >
+                <li>{rec_continut[0]}</li>
+                <li>{rec_continut[1]}</li>
+                <li>{rec_continut[2]}</li>
+                <li>{rec_continut[3]}</li>
+                <li>{rec_continut[4]}</li>
+            </ol>
+            <br></br>
+            <br></br>
+            <br></br>
+            <h1>Altii au rezolvat si: </h1>
+            <ul >
+                <li >{rec_colab[0]}</li>
+                <li >{rec_colab[1]}</li>
+                <li >{rec_colab[2]}</li>
+                <li >{rec_colab[3]}</li>
+                <li >{rec_colab[4]}</li>
+            </ul>
             <Button
             className="button123 my-5"
             variant="outline-secondary"

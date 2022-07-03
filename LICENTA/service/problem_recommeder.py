@@ -89,7 +89,7 @@ class Content_Based_Filtering:
                 ret_list.append(problem_titles[i])
 
 
-        return ret_list
+        return ret_list[:5]
 
 
 
@@ -162,7 +162,7 @@ class My_Collaborative_Filtering:
                 index+=1
 
         index -= 1
-        rez3 = rez[index-10:index]
+        rez3 = rez[index-5:index]
         probs = [problem_titles[i] for i in rez3]
 
         
