@@ -1,82 +1,46 @@
 import os
-import filecmp
 
-file_name = "pb.cpp"
+
+file = "pb.cpp"
 bin_file = "pb"
-inp_file = "pb.in"
-out_file = "pb.out"
-expectedOut = "pb_exp.out"
-timeout = '2'  # secs
+file_input = "pb.in"
+file_output = "pb.out"
+expect = "pb_exp.out"
+time_limit = '2' 
 
 
-class program:
-    def __init__(self, inp, timeout, exp_out=""):
-        self.file_name = file_name  # Full name of the program
-        self.lang = None  # Language
-        self.name = bin_file  # Name without extension
-        self.inp_file = inp  # Input file
-        self.expectedout = exp_out  # Correct output file
-        self.actualout = out_file  # Actual output file
-        self.timeout = timeout  # Timeout set for execution
+def compile_code():
+    os.system('g++ -o ' + bin_file + ' ' + file)
+    if (os.path.isfile(bin_file)):
+        return 0     
+    return -1
 
 
-    def compile(self):
-        os.system('g++ -o ' + self.name + ' ' + self.file_name)
-        if (os.path.isfile(self.name)):
-            return 200     
-        else:
-            return 400
+def run_current_test():
+    resp = os.system('timeout ' + time_limit + ' ' +'./' + bin_file + ' < ' + file_input + ' > ' + file_output)
+    if resp == 0:
+        return 200
+    return 408
+
+def compare_actual_wth_expected():
+    f1 = open(file_output, "r")
+    file1 = f1.read()
+    f2 = open(expect, "r")
+    file2 = f2.read()
+    if file1 == file2:
+        return True
+    return False
 
 
-    def run(self):
-        cmd = './' + self.name
-        r = os.system('timeout ' + timeout + ' ' +cmd + ' < ' + self.inp_file + ' > ' + self.actualout)
-        if r == 0:
-            return 200
-        elif r == 31744:
-            os.remove(self.actualout)
-            return 408
-        else:
-            os.remove(self.actualout)
-            return 400
-
-    def match(self):
-        if os.path.isfile(self.actualout) and os.path.isfile(self.expectedout):
-            b = filecmp.cmp(self.actualout, self.expectedout)
-            return b
-        else:
-            return 404
-
-
-
-
-
-problem_nr = 1
-problem_text = '''#include <iostream>
-#include <fstream>
-
-using namespace std;
-
-ifstream fin("pb.in");
-
-int main()
-{
-    int a,b;
-  fin>>a>>b;
-  cout << a+b;
-    return 0;
-}'''
-
-lang = 'cpp'
 
 def clean_up():
-    files_to_delete = [file_name, inp_file, expectedOut, bin_file, out_file]
+    files_to_delete = [file, file_input, expect, bin_file, file_output]
     for i in files_to_delete:
         if os.path.exists(i):
             os.remove(i)
 
 
-def compile(text_problem, problem_no):
+def execute(text_problem, problem_no):
     tests={
         "1":"",
         "2":"",
@@ -84,16 +48,15 @@ def compile(text_problem, problem_no):
         "4":"",
     }
     
-    code_file = open(file_name, "w")
+    code_file = open(file, "w")
     code_file.write(text_problem)
     code_file.close()
 
-    new_program = program(inp_file, timeout, expectedOut)
 
-    result = new_program.compile()
-    print ('Compilation: ', (result))
+    result = compile_code()
+    print ('Compiled with code: ', (result))
     print(result)
-    if result != 200:
+    if result != 0:
         tests["1"] = 'ec'
         tests["2"] = 'ec'
         tests["3"] = 'ec'
@@ -115,9 +78,9 @@ def compile(text_problem, problem_no):
             output_text = output_file.read()
            
             os.chdir("../../..")
-            create_input_file = open(inp_file, "w")
+            create_input_file = open(file_input, "w")
             create_input_file.write(input_text) 
-            create_output_file = open(expectedOut, "w")
+            create_output_file = open(expect, "w")
             create_output_file.write(output_text) 
             create_input_file.close() 
             create_output_file.close()
@@ -125,14 +88,14 @@ def compile(text_problem, problem_no):
  
 
             print("TEST NR "+ str(i))
-            result = new_program.run()
-            print ('Running: ' + str(result))
+            result = run_current_test()
+            print ('Ruleaza: ' + str(result))
             if result==408:
                 tests[str(i)] = result
             else:
-                print ('Result: ', new_program.match())
+                print ('Rez: ', compare_actual_wth_expected())
                 print("--------------------------\n\n")
-                tests[str(i)]=new_program.match()
+                tests[str(i)]=compare_actual_wth_expected()
 
             os.chdir("problems/"+ str(problem_no))
 
@@ -142,8 +105,6 @@ def compile(text_problem, problem_no):
 
     
 
-if __name__ == '__main__':
-    compile()
 
 
         

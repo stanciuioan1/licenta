@@ -51,7 +51,7 @@ const LandingPage = () => {
   const listItems21 = convert_numbers_to_list(range(401,420))
   const listItems22 = convert_numbers_to_list(range(421,440))
   const listItems23 = convert_numbers_to_list(range(441,460))
-  const listItems24 = convert_numbers_to_list(range(461,480))
+  const listItems24 = convert_numbers_to_list(range(461,479))
 
 
 

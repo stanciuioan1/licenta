@@ -14,14 +14,6 @@ def content_based_recommendation(problem_no):
     return jsonify({'msg': message}), 201
 
 
-@app.route('/get_collaborative_recommendation/<problem_no>')
-def collaborative_recommendation(problem_no):
-    current_user = session.get("username")
-    if not current_user:
-        return jsonify({"error": "Unauthorized"}), 401
-    x = Collaborative_Filtering()
-    message =  x.collaborative_filtering(problem_no)
-    return jsonify({'msg': message}), 201
 
 
 @app.route('/get_my_collaborative_recommendation/<problem_no>')

@@ -7,7 +7,7 @@ from flask import request, jsonify, session
 #-----------compilation part---------------------
 @app.route('/compile/<problem_no>',  methods=["POST"])
 def compile(problem_no):    
-    print("intram in fct fatala")
+
     print(request.get_json())
     current_user = session.get("username")
 
@@ -22,7 +22,7 @@ def compile(problem_no):
     decoded = base64.b64decode(code).decode('utf-8')
     print(decoded)
     print(problem_no)
-    tests = compiler.compile(decoded, int(problem_no))
+    tests = compiler.execute(decoded, int(problem_no))
     user_from_db = users_collection.find_one({'username' : current_user})
     problems = user_from_db['problems']
     problems[str(problem_no)] = tests
@@ -32,7 +32,7 @@ def compile(problem_no):
     print(score)
     print(problems)
     users_collection.update_one({"username": current_user}, {"$set": { "problems": problems }})
-    print("am aj")
+
     with open('scores.csv', 'a') as f:
         writer = csv.writer(f)
         data = [str(current_user), problem_no, score]

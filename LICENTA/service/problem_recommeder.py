@@ -161,6 +161,7 @@ class My_Collaborative_Filtering:
     
 
         rez = numpy.argsort(similarities)
+        print(numpy.sort(similarities))
         rez3 = rez[-5:][::-1]    #alegerea ultimelor 5, apoi inversarea
         probs = [problem_titles[i] for i in rez3]
         return probs

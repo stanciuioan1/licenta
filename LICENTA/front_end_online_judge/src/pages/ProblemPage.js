@@ -59,10 +59,51 @@ const ProblemPage = () => {
     let response = await httpClient.post("http://localhost:5000/compile/"+ parsed.no.toString(), req);
     
     console.log(response.data)
-    setScor1(response.data.tests["1"] === true ? "correct" : "wrong answer")
-    setScor2(response.data.tests["2"]=== true ? "correct" : "wrong answer")
-    setScor3(response.data.tests["3"]=== true ? "correct" : "wrong answer")
-    setScor4(response.data.tests["4"]=== true ? "correct" : "wrong answer")
+    if (response.data.tests["1"] === true)
+    setScor1("correct")
+    else
+    if (response.data.tests["1"] == 'ec')
+    setScor1("compile error")
+    else
+    if (response.data.tests["1"] == 408)
+    setScor1("time limit exceeded")
+    else
+    setScor1("wrong answer");
+
+
+    if (response.data.tests["2"] === true)
+    setScor2("correct")
+    else
+    if (response.data.tests["2"] == 'ec')
+    setScor2("compile error")
+    else
+    if (response.data.tests["2"] == 408)
+    setScor2("time limit exceeded")
+    else
+    setScor2("wrong answer");
+
+    if (response.data.tests["3"] === true)
+    setScor3("correct")
+    else
+    if (response.data.tests["3"] == 'ec')
+    setScor3("compile error")
+    else
+    if (response.data.tests["3"] == 408)
+    setScor3("time limit exceeded")
+    else
+    setScor3("wrong answer");
+
+    if (response.data.tests["4"] === true)
+    setScor4("correct")
+    else
+    if (response.data.tests["4"] == 'ec')
+    setScor4("compile error")
+    else
+    if (response.data.tests["4"] == 408)
+    setScor4("time limit exceeded")
+    else
+    setScor4("wrong answer");
+
 
     console.log(response.data.tests)
   };
