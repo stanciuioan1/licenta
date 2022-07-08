@@ -27,6 +27,10 @@ def compare_actual_wth_expected():
     file1 = f1.read()
     f2 = open(expect, "r")
     file2 = f2.read()
+
+    print(file1)
+    print(file2)
+
     if file1 == file2:
         return True
     return False

@@ -1,1 +1,2 @@
-date iesire: 1 2 3 4
+Programul va calcula diferența de vârstă x și va afișa pe ecran Primul copil este mai mare cu x ani dacă primul copil are cea mai mare vârstă, Al doilea copil este mai mare cu x ani dacă al doilea copil este cel mai în vârstă sau Copiii au varste egale dacă x=0.
+Lasati un rand liber la sfarsit.

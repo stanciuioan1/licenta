@@ -1,1 +1,1 @@
-date intrare: 1 2 3 4
+Se dau pe prima linie numerele n și m, reprezentând numărul de vârfuri ale grafului și numărul de muchii date în continuare. Fiecare dintre următoarele m linii conține câte o pereche de numere i j, cu semnificația că există muchie între i și j.
